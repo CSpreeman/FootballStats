@@ -1,0 +1,61 @@
+﻿
+<div class="container" ng-controller="homeController as HCtrl">
+
+    <table class="table-bordered">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Team</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td></td>
+                <td></td>
+            </tr>
+        </tbody>
+    </table>
+    <hr />
+    <button ng-click="HCtrl.getQbStats()" class="btn btn-primary">Get QB Stats</button>
+</div>
+
+@section scripts {
+    <script src="~/Scripts/angularJsApp/ServiceFactorys/QBFactory.js"></script>
+    <script>
+        (function () {
+            "use strict";
+
+            angular.module('FBApp').controller('homeController', HomeController);
+
+            function HomeController($scope, $http, qbService) {
+                var vm = this;
+                vm.getQbStats = _getQbStats;
+                vm.qbService = qbService
+
+
+                render()
+
+                function render() {
+                    return qbService.getQBs()
+                    .then(function (data) {
+                        console.log(data);
+                    });
+
+
+                }
+
+                function _getQbStats() {
+                    return qbService.scrapeQBData()
+                    .then(function (data) {
+                        console.log(data);
+                    });
+
+                }
+
+            }
+
+        })();
+
+
+    </script>
+}
