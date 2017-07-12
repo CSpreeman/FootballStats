@@ -1,7 +1,83 @@
-﻿@{
-    ViewBag.Title = "About";
-}
-<h2>@ViewBag.Title.</h2>
-<h3>@ViewBag.Message</h3>
+﻿<div class="container" ng-controller="runningbackController as RBCtrl">
 
-<p>Use this area to provide additional information.</p>
+    <table class="table-bordered">
+        <thead>
+            <tr>
+                <th>Rank</th>
+                <th>Name</th>
+                <th>Team</th>
+                <th>Position</th>
+                <th>Completions</th>
+                <th>Attempts</th>
+                <th>Percentage</th>
+                <th>AttemptsPerGame</th>
+                <th>TotalYards</th>
+                <th>Average</th>
+                <th>AveragePerGame</th>
+                <th>Touchdowns</th>
+                <th>Interceptions</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr ng-repeat="item in HCtrl.runningbacks">
+                <td>{{item.rank}}</td>
+                <td>{{item.name}}</td>
+                <td>{{item.team}}</td>
+                <td>{{item.position}}</td>
+                <td>{{item.completions}}</td>
+                <td>{{item.attempts}}</td>
+                <td>{{item.percentage}}</td>
+                <td>{{item.attemptsPerGame}}</td>
+                <td>{{item.totalYards}}</td>
+                <td>{{item.average}}</td>
+                <td>{{item.averagePerGame}}</td>
+                <td>{{item.touchdowns}}</td>
+                <td>{{item.interceptions}}</td>
+            </tr>
+        </tbody>
+    </table>
+    <hr />
+    <button ng-click="RBCtrl.getRbStats()" class="btn btn-primary">Get RB Stats</button>
+</div>
+
+@section scripts {
+    <script src="~/Scripts/angularJsApp/ServiceFactorys/ScrapeFactory.js"></script>
+    <script>
+        (function () {
+            "use strict";
+
+            angular.module('FBApp').controller('runningbackController', RunningbackController);
+
+            function RunningbackController($scope, $http, scrapeService) {
+                var vm = this;
+                vm.getRbStats = _getRbStats;
+                vm.scrapeService = scrapeService;
+                vm.runningbacks = [];
+
+
+                render()
+
+                function render() {
+                    //return qbService.getQBs()
+                    //.then(function (data) {
+                    //    vm.runningbacks = data.data;
+                    //});
+
+
+                }
+
+                function _getRbStats() {
+                    return scrapeService.scrapeRBData()
+                    .then(function (data) {
+                        console.log(data);
+                    });
+
+                }
+
+            }
+
+        })();
+
+
+    </script>
+}

@@ -12,7 +12,15 @@ namespace FootballStatsNew.Controllers.ApiControllers
         [Route("qb"), HttpGet]
         public HttpResponseMessage scrapeQBs()
         {
-            List<int> scrapeQbs = ScrapeService.ScrapeData();
+            string pos = "QUARTERBACK";
+            List<int> scrapeQbs = ScrapeService.ScrapeData(pos);
+            return Request.CreateResponse(HttpStatusCode.OK, scrapeQbs);
+        }
+        [Route("rb"), HttpGet]
+        public HttpResponseMessage scrapeRBs()
+        {
+            string pos = "RUNNING_BACK";
+            List<int> scrapeQbs = ScrapeService.ScrapeData(pos);
             return Request.CreateResponse(HttpStatusCode.OK, scrapeQbs);
         }
     }

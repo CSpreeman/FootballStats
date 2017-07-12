@@ -7,7 +7,9 @@ namespace FootballStatsNew.Models
 {
     public class Player
     {
-        public double Rank { get; set; }
+        public int Id { get; set; }
+
+        public string Rank { get; set; }
 
         public string Name { get; set; }
 

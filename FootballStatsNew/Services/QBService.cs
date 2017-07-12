@@ -11,7 +11,45 @@ namespace FootballStatsNew.Services
     public class QBService
     {
 
-        public static int PostQB(QuarterBack payload)
+        public static List<Quarterback> GetQBs()
+        {
+            List<Quarterback> qblist = new List<Quarterback>();
+            string connString = System.Configuration.ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString;
+
+            using (SqlConnection sqlConn = new SqlConnection(connString))
+            {
+                using (SqlCommand cmd = new SqlCommand("Get_QBs", sqlConn))
+                {
+                    sqlConn.Open();
+                    SqlDataReader reader = cmd.ExecuteReader(System.Data.CommandBehavior.CloseConnection);
+                    while (reader.Read())
+                    {
+                        int i = 0;
+
+                        Quarterback q = new Quarterback();
+                        q.Id = reader.GetInt32(i++);
+                        q.Rank = reader.GetString(i++);
+                        q.Name = reader.GetString(i++);
+                        q.Team = reader.GetString(i++);
+                        q.Position = reader.GetString(i++);
+                        q.Completions = reader.GetString(i++);
+                        q.Attempts = reader.GetString(i++);
+                        q.Percentage = reader.GetString(i++);
+                        q.AttemptsPerGame = reader.GetString(i++);
+                        q.TotalYards = reader.GetString(i++);
+                        q.Average = reader.GetString(i++);
+                        q.AveragePerGame = reader.GetString(i++);
+                        q.Touchdowns = reader.GetString(i++);
+                        q.Interceptions = reader.GetString(i++);
+
+                        qblist.Add(q);
+                    }
+                }
+            }
+            return qblist;
+        }
+
+        public static int InsertQB(Quarterback payload)
         {
             int Id = 0;
 

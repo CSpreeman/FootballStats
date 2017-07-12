@@ -4,14 +4,36 @@
     <table class="table-bordered">
         <thead>
             <tr>
+                <th>Rank</th>
                 <th>Name</th>
                 <th>Team</th>
+                <th>Position</th>
+                <th>Completions</th>
+                <th>Attempts</th>
+                <th>Percentage</th>
+                <th>AttemptsPerGame</th>
+                <th>TotalYards</th>
+                <th>Average</th>
+                <th>AveragePerGame</th>
+                <th>Touchdowns</th>
+                <th>Interceptions</th>
             </tr>
         </thead>
         <tbody>
-            <tr>
-                <td></td>
-                <td></td>
+            <tr ng-repeat="item in HCtrl.quarterbacks">
+                <td>{{item.rank}}</td>
+                <td>{{item.name}}</td>
+                <td>{{item.team}}</td>
+                <td>{{item.position}}</td>
+                <td>{{item.completions}}</td>
+                <td>{{item.attempts}}</td>
+                <td>{{item.percentage}}</td>
+                <td>{{item.attemptsPerGame}}</td>
+                <td>{{item.totalYards}}</td>
+                <td>{{item.average}}</td>
+                <td>{{item.averagePerGame}}</td>
+                <td>{{item.touchdowns}}</td>
+                <td>{{item.interceptions}}</td>
             </tr>
         </tbody>
     </table>
@@ -20,6 +42,7 @@
 </div>
 
 @section scripts {
+    <script src="~/Scripts/angularJsApp/ServiceFactorys/ScrapeFactory.js"></script>
     <script src="~/Scripts/angularJsApp/ServiceFactorys/QBFactory.js"></script>
     <script>
         (function () {
@@ -27,10 +50,12 @@
 
             angular.module('FBApp').controller('homeController', HomeController);
 
-            function HomeController($scope, $http, qbService) {
+            function HomeController($scope, $http, qbService, scrapeService) {
                 var vm = this;
                 vm.getQbStats = _getQbStats;
-                vm.qbService = qbService
+                vm.qbService = qbService;
+                vm.scrapeService = scrapeService;
+                vm.quarterbacks = [];
 
 
                 render()
@@ -38,14 +63,14 @@
                 function render() {
                     return qbService.getQBs()
                     .then(function (data) {
-                        console.log(data);
+                        vm.quarterbacks = data.data;
                     });
 
 
                 }
 
                 function _getQbStats() {
-                    return qbService.scrapeQBData()
+                    return scrapeService.scrapeQBData()
                     .then(function (data) {
                         console.log(data);
                     });

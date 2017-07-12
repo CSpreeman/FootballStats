@@ -5,25 +5,11 @@
 
     function QBService($http) {
         return {
-            scrapeQBData: _scrapeQBData,
             getQBs: _getQBs
         };
-
-        function _scrapeQBData() {
-            return $http.get('/scrape/qb')
-            .then(getQBDataCompleted)
-            .catch(getQBDataFailed)
-
-            function getQBDataCompleted(response) {
-                return response;
-            }
-            function getQBDataFailed(error) {
-                console.log('failed to get data', error)
-            }
-        }
-
+        
         function _getQBs() {
-            return http.get('/api/qb')
+            return $http.get('/api/qb')
             .then(getQBsComplete)
             .catch(getQBsFailed)
 
